@@ -16,56 +16,6 @@
       --legacy:#0ea5a4;
     }
 
-    /* ===== SPLASH SCREEN ===== */
-    #splashScreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #fff7ec 0%, #fef3e0 50%, #fff7ec 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      opacity: 0;
-      animation: splashFadeIn 0.8s ease-out forwards;
-    }
-
-    #splashScreen.fade-out {
-      animation: splashFadeOut 0.8s ease-in forwards;
-    }
-
-    #splashScreen img {
-      max-width: 90%;
-      max-height: 90%;
-      object-fit: contain;
-      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
-      animation: splashImageFloat 3s ease-in-out infinite;
-    }
-
-    @keyframes splashFadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes splashFadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; }
-    }
-
-    @keyframes splashImageFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    /* Hide main content initially */
-    body.loading .container,
-    body.loading .floaters {
-      opacity: 0;
-    }
-    /* ===== END SPLASH SCREEN ===== */
-
     html,body{
       height:100%;
       margin:0;
@@ -74,10 +24,9 @@
       color:#111827;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      transition: opacity 0.5s ease;
     }
 
-    .floaters{ position:fixed; top:6%; left:4%; font-size:2.6rem; opacity:0.14; transform:rotate(-8deg); pointer-events:none; transition: opacity 0.3s ease; }
+    .floaters{ position:fixed; top:6%; left:4%; font-size:2.6rem; opacity:0.14; transform:rotate(-8deg); pointer-events:none; }
     .floaters.right{ right:4%; left:auto; top:70%; transform:rotate(6deg); font-size:2.2rem; opacity:0.12; }
 
     .container{ max-width:1100px; margin:36px auto; padding:20px; display:grid; grid-template-columns: 1fr 420px; gap:20px; align-items:start; }
@@ -86,23 +35,15 @@
     h1{ margin:0; font-size:1.8rem; letter-spacing:-0.02em; }
     .subtitle{ color:var(--muted); font-size:0.95rem; margin-top:4px; }
 
-    .main-card{ background:var(--panel); border-radius:12px; padding:18px; box-shadow:var(--shadow); border:1px solid rgba(15,23,42,0.03); transition: transform 0.2s ease, box-shadow 0.2s ease; }
-    .main-card:hover{ transform: translateY(-2px); box-shadow: 0 12px 28px rgba(15,23,42,0.12); }
+    .main-card{ background:var(--panel); border-radius:12px; padding:18px; box-shadow:var(--shadow); border:1px solid rgba(15,23,42,0.03); }
 
     .stats{ display:flex; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
-    .stat{ background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85)); padding:10px 12px; border-radius:10px; min-width:120px; text-align:left; box-shadow:0 6px 14px rgba(15,23,42,0.04); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
-    .stat::before{ content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, var(--accent), var(--gold)); transform: scaleX(0); transition: transform 0.3s ease; }
-    .stat:hover{ transform: translateY(-4px); box-shadow:0 12px 24px rgba(15,23,42,0.08); }
-    .stat:hover::before{ transform: scaleX(1); }
+    .stat{ background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85)); padding:10px 12px; border-radius:10px; min-width:120px; text-align:left; box-shadow:0 6px 14px rgba(15,23,42,0.04); }
     .stat strong{display:block; font-size:0.9rem;} .stat span{font-size:1.2rem; color:var(--accent); font-weight:700;}
     .stat.legacy span{ color:var(--legacy); }
-    .stat.legacy::before{ background: linear-gradient(90deg, var(--legacy), #06b6d4); }
 
-    #bakeBtn{ width:100%; margin-top:6px; background:linear-gradient(180deg,var(--accent),#b45309); color:white; border:none; padding:18px; border-radius:12px; font-size:1.05rem; cursor:pointer; box-shadow:0 10px 30px rgba(164,94,11,0.18); transition:transform .08s ease, box-shadow .08s ease; position: relative; overflow: hidden; font-weight: 600; letter-spacing: 0.5px; }
-    #bakeBtn::before{ content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255,255,255,0.3); transform: translate(-50%, -50%); transition: width 0.6s ease, height 0.6s ease; }
-    #bakeBtn:hover{ transform: translateY(-2px); box-shadow:0 12px 36px rgba(164,94,11,0.25); }
+    #bakeBtn{ width:100%; margin-top:6px; background:linear-gradient(180deg,var(--accent),#b45309); color:white; border:none; padding:18px; border-radius:12px; font-size:1.05rem; cursor:pointer; box-shadow:0 10px 30px rgba(164,94,11,0.18); transition:transform .08s ease, box-shadow .08s ease; }
     #bakeBtn:active{ transform:translateY(2px) scale(.995); box-shadow:0 6px 18px rgba(164,94,11,0.12); }
-    #bakeBtn:active::before{ width: 300px; height: 300px; }
 
     .slogan{ margin-top:10px; color:var(--muted); font-size:0.9rem; }
 
@@ -110,31 +51,25 @@
 
     .panel-title{ font-weight:700; margin:0 0 8px 0; }
 
-    .upgrade{ display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px; border-radius:10px; background:linear-gradient(180deg,#ffffff,#fffaf0); border:1px solid rgba(15,23,42,0.03); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .upgrade{ display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px; border-radius:10px; background:linear-gradient(180deg,#ffffff,#fffaf0); border:1px solid rgba(15,23,42,0.03); }
     .upgrade .info{ text-align:left; } .upgrade .info .title{ font-weight:700; } .upgrade .info .desc{ color:var(--muted); font-size:0.85rem; margin-top:4px; }
-    .upgrade button{ background:var(--gold); border:none; padding:8px 12px; border-radius:8px; color:#1f2937; font-weight:700; cursor:pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2); }
-    .upgrade button:hover:not(:disabled){ background:#f59e0b; transform: scale(1.05); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
-    .upgrade button:disabled{ background:#e6e6e6; color:#9ca3af; cursor:not-allowed; box-shadow: none; }
+    .upgrade button{ background:var(--gold); border:none; padding:8px 12px; border-radius:8px; color:#1f2937; font-weight:700; cursor:pointer; }
+    .upgrade button:disabled{ background:#e6e6e6; color:#9ca3af; cursor:not-allowed; }
 
     .unlockable{ display:none; opacity:0; transform:translateY(8px); transition:all .35s cubic-bezier(.2,.9,.2,1); }
     .unlockable.visible{ display:flex; opacity:1; transform:translateY(0); }
 
     .log{ margin-top:12px; color:var(--muted); font-size:0.9rem; min-height:36px; }
 
-    .progress{ height:10px; background:linear-gradient(90deg,#fff,#fff); border-radius:999px; overflow:hidden; margin-top:12px; border:1px solid rgba(15,23,42,0.03); position: relative; }
-    .progress > i{ display:block; height:100%; width:0%; background:linear-gradient(90deg,#fef3c7,#f59e0b); transition:width .3s ease; position: relative; overflow: hidden; }
-    .progress > i::after{ content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shimmer 2s infinite; }
-    @keyframes shimmer{ 0%{ transform: translateX(-100%); } 100%{ transform: translateX(100%); } }
+    .progress{ height:10px; background:linear-gradient(90deg,#fff,#fff); border-radius:999px; overflow:hidden; margin-top:12px; border:1px solid rgba(15,23,42,0.03); }
+    .progress > i{ display:block; height:100%; width:0%; background:linear-gradient(90deg,#fef3c7,#f59e0b); transition:width .3s ease; }
 
     .footer-controls{ display:flex; gap:8px; margin-top:12px; align-items:center; }
-    .ghost{ background:transparent; border:1px dashed rgba(15,23,42,0.06); padding:8px 10px; border-radius:8px; color:var(--muted); cursor:pointer; transition: all 0.2s ease; }
-    .ghost:hover{ background:rgba(15,23,42,0.03); border-color:rgba(15,23,42,0.12); transform: translateY(-1px); }
+    .ghost{ background:transparent; border:1px dashed rgba(15,23,42,0.06); padding:8px 10px; border-radius:8px; color:var(--muted); cursor:pointer; }
 
-    .rebirth-panel{ margin-top:12px; padding:12px; border-radius:10px; background:linear-gradient(180deg,#f0fdfa,#ecfeff); border:1px solid rgba(14,165,164,0.12); transition: all 0.3s ease; }
-    .rebirth-panel:hover{ box-shadow: 0 8px 20px rgba(14,165,164,0.15); transform: translateY(-2px); }
-    .rebirth-panel button{ background:var(--legacy); color:white; border:none; padding:10px 12px; border-radius:8px; font-weight:700; cursor:pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(14,165,164,0.2); }
-    .rebirth-panel button:hover:not(:disabled){ background:#0d9b9a; transform: scale(1.05); box-shadow: 0 4px 12px rgba(14,165,164,0.3); }
-    .rebirth-panel button:disabled{ background:#9ad7d5; opacity:0.6; cursor:not-allowed; box-shadow: none; }
+    .rebirth-panel{ margin-top:12px; padding:12px; border-radius:10px; background:linear-gradient(180deg,#f0fdfa,#ecfeff); border:1px solid rgba(14,165,164,0.12); }
+    .rebirth-panel button{ background:var(--legacy); color:white; border:none; padding:10px 12px; border-radius:8px; font-weight:700; cursor:pointer; }
+    .rebirth-panel button:disabled{ background:#9ad7d5; opacity:0.6; cursor:not-allowed; }
 
     @media (max-width:900px){ .container{ grid-template-columns: 1fr; padding:12px; } .side{ order:2; } }
 
@@ -143,12 +78,7 @@
     .upgrade:hover{ transform:translateY(-4px); transition:transform .12s ease; box-shadow:0 10px 30px rgba(15,23,42,0.06); }
   </style>
 </head>
-<body class="loading">
-  <!-- Splash Screen -->
-  <div id="splashScreen">
-    <img src="splash.png" alt="Abu's Bakers">
-  </div>
-
+<body>
   <div class="floaters">🥐 🥖 🥯</div>
   <div class="floaters right">🍞 Abu's Bakers</div>
 
@@ -274,25 +204,6 @@
   </div>
 
   <script>
-    // ===== SPLASH SCREEN LOGIC =====
-    // Handle splash screen fade in/out on page load
-    window.addEventListener('load', () => {
-      const splashScreen = document.getElementById('splashScreen');
-      const body = document.body;
-      
-      // Wait 2 seconds after fade in completes, then fade out
-      setTimeout(() => {
-        splashScreen.classList.add('fade-out');
-        
-        // After fade out animation, remove splash and show main content
-        setTimeout(() => {
-          splashScreen.style.display = 'none';
-          body.classList.remove('loading');
-        }, 800); // Match fade-out duration
-      }, 2000); // Display time
-    });
-    // ===== END SPLASH SCREEN LOGIC =====
-
     // Initialize after DOM is ready to avoid timing issues
     document.addEventListener('DOMContentLoaded', () => {
       try {
@@ -489,49 +400,10 @@
         // -------------------------
         // Click & shop actions
         // -------------------------
-        // Add click particle effect
-        function createClickParticle(x, y) {
-          const particle = document.createElement('div');
-          particle.style.cssText = `
-            position: fixed;
-            left: ${x}px;
-            top: ${y}px;
-            width: 20px;
-            height: 20px;
-            pointer-events: none;
-            z-index: 1000;
-            font-size: 1.5rem;
-            animation: particleFloat 1s ease-out forwards;
-          `;
-          particle.textContent = '🍞';
-          document.body.appendChild(particle);
-          
-          setTimeout(() => particle.remove(), 1000);
-        }
-        
-        // Add particle animation CSS if not exists
-        if (!document.querySelector('#particleStyle')) {
-          const style = document.createElement('style');
-          style.id = 'particleStyle';
-          style.textContent = `
-            @keyframes particleFloat {
-              0% { transform: translateY(0) scale(1); opacity: 1; }
-              100% { transform: translateY(-60px) scale(0.5); opacity: 0; }
-            }
-          `;
-          document.head.appendChild(style);
-        }
-
-        bakeBtn.addEventListener('click', (e)=>{
+        bakeBtn.addEventListener('click', ()=>{
           funds += getEffectivePerClick();
           updateUI();
           bakeBtn.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}], {duration:160});
-          
-          // Create particle at click position
-          const rect = bakeBtn.getBoundingClientRect();
-          const x = rect.left + rect.width / 2;
-          const y = rect.top + rect.height / 2;
-          createClickParticle(x, y);
         });
 
         // Perfect Bake: temporary ×3 click power for 10 seconds, cost % of funds
