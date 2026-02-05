@@ -38,9 +38,9 @@
     }
 
     #splashScreen img {
-      max-width: 90%;
-      max-height: 90%;
-      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
       animation: splashImageFloat 3s ease-in-out infinite;
     }
@@ -70,6 +70,93 @@
     body.loading {
       overflow: hidden;
     }
+
+    /* ===== ToS SPLASH SCREEN ===== */
+    #tosSplashScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, #fff7ec 0%, #fef3e0 50%, #fff7ec 100%);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      overflow: hidden;
+    }
+
+    #tosSplashScreen.show {
+      display: flex;
+      animation: splashFadeIn 0.8s ease-out forwards;
+    }
+
+    #tosSplashScreen.fade-out {
+      animation: splashFadeOut 0.8s ease-in forwards;
+    }
+
+    .tos-content {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    .tos-content h2 {
+      margin: 0 0 20px 0;
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    .tos-content p {
+      margin: 0 0 30px 0;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .tos-checkbox-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 30px;
+      font-size: 1rem;
+    }
+
+    .tos-checkbox-container input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .tos-continue-btn {
+      padding: 12px 40px;
+      font-size: 1.1rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .tos-continue-btn.enabled {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .tos-continue-btn.enabled:hover {
+      background: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(217, 119, 6, 0.3);
+    }
+    /* ===== END ToS SPLASH SCREEN ===== */
     /* ===== END SPLASH SCREEN ===== */
 
     html,body{
@@ -155,6 +242,24 @@
     <img src="splash.png" alt="Abu's Bakers">
   </div>
 
+  <!-- ToS Splash Screen -->
+  <div id="tosSplashScreen">
+    <div class="tos-content">
+      <h2>Terms of Service</h2>
+      <p>
+        Welcome to Abu's Bakers! By playing this game, you agree to bake responsibly, 
+        not hold us liable for any virtual dough mishaps, and acknowledge that all 
+        bread puns are intentional. Abu reserves the right to adjust prices based on 
+        market flour conditions.
+      </p>
+      <div class="tos-checkbox-container">
+        <input type="checkbox" id="tosCheckbox">
+        <label for="tosCheckbox">I agree to the Terms of Service</label>
+      </div>
+      <button id="tosContinueBtn" class="tos-continue-btn">Continue</button>
+    </div>
+  </div>
+
   <div class="floaters">🥐 🥖 🥯</div>
   <div class="floaters right">🍞 Abu's Bakers</div>
 
@@ -189,9 +294,6 @@
         </button>
         <button id="flashSaleBtn" class="ghost" style="flex:1; border-style:solid;">
           Flash Sale +50% (10s)
-        </button>
-        <button id="vipCateringBtn" class="ghost" style="flex:1; border-style:solid;">
-          VIP Catering
         </button>
       </div>
 
@@ -284,18 +386,41 @@
     // Handle splash screen fade in/out on page load
     window.addEventListener('load', () => {
       const splashScreen = document.getElementById('splashScreen');
+      const tosSplashScreen = document.getElementById('tosSplashScreen');
+      const tosCheckbox = document.getElementById('tosCheckbox');
+      const tosContinueBtn = document.getElementById('tosContinueBtn');
       const body = document.body;
       
-      // Wait 2 seconds after fade in completes, then fade out
+      // Wait 2 seconds after fade in completes, then fade out first splash
       setTimeout(() => {
         splashScreen.classList.add('fade-out');
         
-        // After fade out animation, remove splash and show main content
+        // After fade out animation, hide first splash and show ToS splash
         setTimeout(() => {
           splashScreen.style.display = 'none';
-          body.classList.remove('loading');
+          tosSplashScreen.classList.add('show');
         }, 800); // Match fade-out duration
       }, 2000); // Display time
+
+      // Handle ToS checkbox
+      tosCheckbox.addEventListener('change', () => {
+        if (tosCheckbox.checked) {
+          tosContinueBtn.classList.add('enabled');
+        } else {
+          tosContinueBtn.classList.remove('enabled');
+        }
+      });
+
+      // Handle ToS continue button
+      tosContinueBtn.addEventListener('click', () => {
+        if (!tosCheckbox.checked) return;
+        
+        tosSplashScreen.classList.add('fade-out');
+        setTimeout(() => {
+          tosSplashScreen.style.display = 'none';
+          body.classList.remove('loading');
+        }, 800);
+      });
     });
     // ===== END SPLASH SCREEN LOGIC =====
 
@@ -344,10 +469,6 @@
         let flashSaleActive = false;
         let perfectBakeUntil = 0;
         let flashSaleUntil = 0;
-
-        // VIP burst cost and power
-        const vipCateringCost = 2500;
-        const vipCateringRewardFactor = 4; // gives 4x current passive per second * 10 seconds
 
         // -------------------------
         // DOM references
@@ -407,7 +528,6 @@
         // NEW click special buttons
         const perfectBakeBtn = document.getElementById('perfectBakeBtn');
         const flashSaleBtn = document.getElementById('flashSaleBtn');
-        const vipCateringBtn = document.getElementById('vipCateringBtn');
 
         // -------------------------
         // Utility & UI helpers
@@ -565,20 +685,6 @@
           flashSaleActive = true;
           flashSaleUntil = Date.now() + 10_000;
           log(`Flash Sale started! Passive income boosted for 10 seconds (cost ${fmt(cost)}).`);
-          updateUI();
-        });
-
-        // VIP Catering: big instant payout based on passive income
-        vipCateringBtn.addEventListener('click', ()=>{
-          const cost = vipCateringCost;
-          if (funds < cost){
-            log("VIP Catering requires an actual VIP budget.");
-            return;
-          }
-          funds -= cost;
-          const bonus = getEffectivePerSecond() * vipCateringRewardFactor * 10;
-          funds += bonus;
-          log(`VIP Catering booked! You earned ${fmt(bonus)} from one very fancy event.`);
           updateUI();
         });
 
